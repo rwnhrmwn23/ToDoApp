@@ -10,7 +10,10 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
     }
 }
 rootProject.name = "ToDoApp"
 include ':app'
+include ':core:database'
+include ':feature:todo'
