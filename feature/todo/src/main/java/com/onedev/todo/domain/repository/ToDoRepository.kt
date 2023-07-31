@@ -4,7 +4,7 @@ import com.onedev.todo.domain.model.ToDo
 import kotlinx.coroutines.flow.Flow
 
 interface ToDoRepository {
-    fun readAllData(): Flow<List<ToDo>>
+    fun readAllData(date: String): Flow<List<ToDo>>
 
     suspend fun insertData(toDo: ToDo)
 

@@ -5,7 +5,7 @@ import com.onedev.database.entity.ToDoEntity
 
 class ToDoLocalDataSource(private val toDoDao: ToDoDao) {
 
-    fun readAllData() = toDoDao.readAllData()
+    fun readAllData(date: String) = toDoDao.readAllData(date)
 
     suspend fun insertData(toDoEntity: ToDoEntity) = toDoDao.insertData(toDoEntity)
 

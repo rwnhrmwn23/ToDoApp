@@ -7,7 +7,7 @@ class ToDouseCaseImpl(
     private val toDoRepository: ToDoRepository
 ) {
 
-    fun readAllData() = toDoRepository.readAllData()
+    fun readAllData(date: String) = toDoRepository.readAllData(date)
 
     suspend fun insertData(toDo: ToDo) = toDoRepository.insertData(toDo)
 

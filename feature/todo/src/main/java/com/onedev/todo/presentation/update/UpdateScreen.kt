@@ -89,31 +89,34 @@ fun UpdateScreen(
                     ) {
                         Icon(Icons.Rounded.Close, contentDescription = "Delete ToDo")
                     }
-                    AlertDialog(
-                        onDismissRequest = {
-                            openDialog.value = false
-                        },
-                        title = {
-                            Text(text = "Are you sure to delete this ToDo ?")
-                        },
-                        text = {
-                            Text("ToDo will be deleted")
-                        },
-                        confirmButton = {
-                            Button(onClick = {
+                    if (openDialog.value) {
+                        AlertDialog(
+                            onDismissRequest = {
                                 openDialog.value = false
-                                updateViewModel.deleteData(toDo)
-                                mContext.toast("Delete data successful")
-                            }) {
-                                Text("Yes")
+                            },
+                            title = {
+                                Text(text = "Are you sure to delete this ToDo ?")
+                            },
+                            text = {
+                                Text("ToDo will be deleted")
+                            },
+                            confirmButton = {
+                                Button(onClick = {
+                                    openDialog.value = false
+                                    updateViewModel.deleteData(toDo)
+                                    mContext.toast("Delete data successful")
+                                    navController.popBackStack()
+                                }) {
+                                    Text("Yes")
+                                }
+                            },
+                            dismissButton = {
+                                Button(onClick = { openDialog.value = false }) {
+                                    Text("No")
+                                }
                             }
-                        },
-                        dismissButton = {
-                            Button(onClick = { openDialog.value = false }) {
-                                Text("No")
-                            }
-                        }
-                    )
+                        )
+                    }
                 }
             )
         }

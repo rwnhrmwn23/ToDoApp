@@ -12,8 +12,8 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ToDoDao {
 
-    @Query("SELECT * FROM tb_todo ORDER BY id ASC")
-    fun readAllData(): Flow<List<ToDoEntity>>
+    @Query("SELECT * FROM tb_todo WHERE dueDate = :date ORDER BY dueDate ASC")
+    fun readAllData(date: String): Flow<List<ToDoEntity>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertData(toDoEntity: ToDoEntity)

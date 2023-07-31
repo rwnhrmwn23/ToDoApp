@@ -5,13 +5,14 @@ import com.onedev.todo.domain.model.ToDo
 import com.onedev.todo.data.mapper.DataMapper.mapDomainToEntity
 import com.onedev.todo.data.mapper.DataMapper.mapEntitiesToDomains
 import com.onedev.todo.domain.repository.ToDoRepository
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 class ToDoRepositoryImpl(
     private val toDoLocalDataSource: ToDoLocalDataSource
 ): ToDoRepository {
-    override fun readAllData() =
-        toDoLocalDataSource.readAllData().map { it.mapEntitiesToDomains() }
+    override fun readAllData(date: String): Flow<List<ToDo>> =
+        toDoLocalDataSource.readAllData(date).map { it.mapEntitiesToDomains() }
 
     override suspend fun insertData(toDo: ToDo) {
         val data = toDo.mapDomainToEntity()
