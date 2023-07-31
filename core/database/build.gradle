@@ -48,7 +48,5 @@ dependencies {
     androidTestImplementation "androidx.room:room-testing:2.5.2"
 
     // Koin
-    implementation "org.koin:koin-core:2.1.6"
-    implementation "org.koin:koin-android:2.1.6"
-    implementation "org.koin:koin-android-viewmodel:2.1.6"
+    implementation "io.insert-koin:koin-androidx-compose:3.4.6"
 }
