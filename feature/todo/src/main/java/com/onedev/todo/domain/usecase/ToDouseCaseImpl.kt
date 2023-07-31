@@ -11,7 +11,7 @@ class ToDouseCaseImpl(
 
     suspend fun insertData(toDo: ToDo) = toDoRepository.insertData(toDo)
 
-    suspend fun updateData(toDo: ToDo) =  toDoRepository.updateData(toDo)
+    suspend fun updateData(toDo: ToDo, isDone: Boolean) =  toDoRepository.updateData(toDo, isDone)
 
     suspend fun deleteData(toDo: ToDo) = toDoRepository.deleteData(toDo)
 

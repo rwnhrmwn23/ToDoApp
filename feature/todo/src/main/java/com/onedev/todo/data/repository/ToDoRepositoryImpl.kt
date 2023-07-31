@@ -18,9 +18,9 @@ class ToDoRepositoryImpl(
         toDoLocalDataSource.insertData(data)
     }
 
-    override suspend fun updateData(toDo: ToDo) {
+    override suspend fun updateData(toDo: ToDo, isDone: Boolean) {
         val data = toDo.mapDomainToEntity()
-        toDoLocalDataSource.updateData(data)
+        toDoLocalDataSource.updateData(data, isDone)
     }
 
     override suspend fun deleteData(toDo: ToDo) {

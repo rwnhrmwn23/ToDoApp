@@ -1,4 +1,4 @@
-package com.onedev.todo.presentation.add
+package com.onedev.todo.presentation.update
 
 import android.app.DatePickerDialog
 import android.widget.DatePicker
@@ -9,7 +9,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.DateRange
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -35,14 +37,19 @@ import java.util.Date
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AddScreen(
+fun UpdateScreen(
+    toDo: ToDo,
     navController: NavHostController,
-    addViewModel: AddViewModel = koinViewModel()
+    updateViewModel: UpdateViewModel = koinViewModel()
 ) {
 
     val oTFTitle = remember { mutableStateOf("") }
     val oTFDescription = remember { mutableStateOf("") }
     val oTFDueDate = remember { mutableStateOf("") }
+
+    oTFTitle.value = toDo.title
+    oTFDescription.value = toDo.description
+    oTFDueDate.value = toDo.dueDate
 
     // Date Picker
     val mContext = LocalContext.current
@@ -60,10 +67,12 @@ fun AddScreen(
         }, mYear, mMonth, mDay
     )
 
+    val openDialog = remember { mutableStateOf(false) }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(text = "Add ToDo") },
+                title = { Text(text = "Update ToDo") },
                 navigationIcon = {
                     IconButton(onClick = { navController.popBackStack() }) {
                         Icon(
@@ -71,6 +80,40 @@ fun AddScreen(
                             contentDescription = "Back Button"
                         )
                     }
+                },
+                actions = {
+                    IconButton(
+                        onClick = {
+                            openDialog.value = true
+                        }
+                    ) {
+                        Icon(Icons.Rounded.Close, contentDescription = "Delete ToDo")
+                    }
+                    AlertDialog(
+                        onDismissRequest = {
+                            openDialog.value = false
+                        },
+                        title = {
+                            Text(text = "Are you sure to delete this ToDo ?")
+                        },
+                        text = {
+                            Text("ToDo will be deleted")
+                        },
+                        confirmButton = {
+                            Button(onClick = {
+                                openDialog.value = false
+                                updateViewModel.deleteData(toDo)
+                                mContext.toast("Delete data successful")
+                            }) {
+                                Text("Yes")
+                            }
+                        },
+                        dismissButton = {
+                            Button(onClick = { openDialog.value = false }) {
+                                Text("No")
+                            }
+                        }
+                    )
                 }
             )
         }
@@ -126,19 +169,33 @@ fun AddScreen(
                         if (title.isEmpty() || description.isEmpty() || dueData.isEmpty()) {
                             mContext.toast("Please full all field")
                         } else {
-                            val toDo = ToDo(
-                                id = 0,
+                            val data = ToDo(
+                                id = toDo.id,
                                 title = title,
                                 description = description,
                                 dueDate = dueData,
+                                isDone = toDo.isDone
                             )
-                            addViewModel.insertData(toDo)
-                            mContext.toast("Add data successful")
+                            updateViewModel.updateData(data, data.isDone)
+                            mContext.toast("Update data successful")
                             navController.popBackStack()
                         }
                     }
                 ) {
-                    Text(text = "Add ToDo")
+                    Text(text = "Update ToDo")
+                }
+
+                if (!toDo.isDone) {
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        onClick = {
+                            updateViewModel.updateData(toDo, true)
+                            mContext.toast("ToDo has done")
+                            navController.popBackStack()
+                        }
+                    ) {
+                        Text(text = "Mark as Done")
+                    }
                 }
             }
         }
@@ -148,7 +205,5 @@ fun AddScreen(
 @Preview(showBackground = true)
 @Composable
 fun AddScreenPreview() {
-    AddScreen(
-        navController = rememberNavController(),
-    )
+    UpdateScreen(ToDo(), navController = rememberNavController())
 }

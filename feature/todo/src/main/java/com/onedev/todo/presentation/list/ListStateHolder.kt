@@ -4,6 +4,6 @@ import com.onedev.todo.domain.model.ToDo
 
 data class ListStateHolder(
     val isLoading: Boolean = false,
-    val data: List<ToDo>? = null,
+    val data: List<ToDo> = emptyList(),
     val error: String = ""
 )

@@ -9,4 +9,5 @@ data class ToDo(
     val title: String = "",
     val description: String = "",
     val dueDate: String = "",
+    val isDone: Boolean = false,
 ): Parcelable

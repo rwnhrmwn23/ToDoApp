@@ -9,7 +9,10 @@ class ToDoLocalDataSource(private val toDoDao: ToDoDao) {
 
     suspend fun insertData(toDoEntity: ToDoEntity) = toDoDao.insertData(toDoEntity)
 
-    suspend fun updateData(toDoEntity: ToDoEntity) = toDoDao.updateData(toDoEntity)
+    suspend fun updateData(toDoEntity: ToDoEntity, isDone: Boolean) {
+        toDoEntity.isDone = isDone
+        toDoDao.updateData(toDoEntity)
+    }
 
     suspend fun deleteData(toDoEntity: ToDoEntity) = toDoDao.deleteData(toDoEntity)
 

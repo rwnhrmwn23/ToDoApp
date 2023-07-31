@@ -4,6 +4,7 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.onedev.todo.domain.model.ToDo
 import com.onedev.todo.domain.usecase.ToDouseCaseImpl
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -25,11 +26,17 @@ class ListViewModel(private val toDouseCaseImpl: ToDouseCaseImpl) : ViewModel() 
         toDouseCaseImpl.readAllData().onEach { listData ->
             _toDoList.value = ListStateHolder(isLoading = true)
             if (listData.isEmpty()) {
-                _toDoList.value = ListStateHolder(data = null)
+                _toDoList.value = ListStateHolder(data = emptyList())
             } else {
                 _toDoList.value = ListStateHolder(data = listData)
             }
         }.launchIn(viewModelScope)
+    }
+
+    fun updateData(todo: ToDo, isDone: Boolean) {
+        viewModelScope.launch {
+            toDouseCaseImpl.updateData(todo, isDone)
+        }
     }
 
     fun deleteAllData() = viewModelScope.launch {

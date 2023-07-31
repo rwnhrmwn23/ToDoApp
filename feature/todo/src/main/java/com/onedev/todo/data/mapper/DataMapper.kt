@@ -12,6 +12,7 @@ object DataMapper {
                 title = it.title,
                 description = it.description,
                 dueDate = it.dueDate,
+                isDone = it.isDone,
             )
             toDoList.add(todo)
         }
@@ -23,5 +24,6 @@ object DataMapper {
         title = title,
         description = description,
         dueDate = dueDate,
+        isDone = isDone,
     )
 }

@@ -8,9 +8,9 @@ import kotlinx.coroutines.launch
 
 class UpdateViewModel(private val toDouseCaseImpl: ToDouseCaseImpl): ViewModel() {
 
-    fun updateData(todo: ToDo) {
+    fun updateData(todo: ToDo, isDone: Boolean) {
         viewModelScope.launch {
-            toDouseCaseImpl.updateData(todo)
+            toDouseCaseImpl.updateData(todo, isDone)
         }
     }
 

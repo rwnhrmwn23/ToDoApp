@@ -4,14 +4,16 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.onedev.todo.domain.model.ToDo
 import com.onedev.todo.presentation.add.AddScreen
 import com.onedev.todo.presentation.list.ListScreen
 import com.onedev.todo.presentation.update.UpdateScreen
 
 @Composable
 fun SetupNavGraph(
-    navController: NavHostController
+    navController: NavHostController,
 ) {
+
     NavHost(navController = navController, startDestination = Screen.ListScreen.route) {
         composable(route = Screen.ListScreen.route) {
             ListScreen(navController)
@@ -20,7 +22,10 @@ fun SetupNavGraph(
             AddScreen(navController)
         }
         composable(route = Screen.UpdateScreen.route) {
-            UpdateScreen(navController)
+            val toDo = navController.previousBackStackEntry?.savedStateHandle?.get<ToDo>("ToDo")
+            toDo?.let {
+                UpdateScreen(it, navController)
+            }
         }
     }
 }
